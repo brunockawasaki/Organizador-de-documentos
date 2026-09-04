@@ -132,7 +132,6 @@ h1{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:14px;
-  margin-top:32px;
 }
 .kpi{
   background:var(--surface);
@@ -411,25 +410,25 @@ footer{
     <span class="meta-item"><span class="dot" style="background:var(--muted)"></span><b>Ambiente 3</b>&nbsp;Projeto Next</span>
   </div>
 
-  <div class="kpis">
-    <div class="kpi">
-      <p class="kpi-label">Total de documentos</p>
-      <div class="kpi-value" id="kpi-total">—</div>
-      <p class="kpi-foot">Mapeados nos 3 ambientes</p>
-    </div>
-    <div class="kpi">
-      <p class="kpi-label">Sincronizado (3 ambientes)</p>
-      <div class="kpi-value" id="kpi-pct">—<small>%</small></div>
-      <p class="kpi-foot" id="kpi-pct-foot">—</p>
-    </div>
-    <div class="kpi kpi-warn">
-      <p class="kpi-label">Pendências</p>
-      <div class="kpi-value" id="kpi-pend">—</div>
-      <p class="kpi-foot"><a onclick="filterStatusPending()">ver na tabela ↓</a></p>
-    </div>
-  </div>
-
   <div class="grid-main">
+    <div class="kpis">
+      <div class="kpi">
+        <p class="kpi-label">Total de documentos</p>
+        <div class="kpi-value" id="kpi-total">—</div>
+        <p class="kpi-foot">Mapeados nos 3 ambientes</p>
+      </div>
+      <div class="kpi">
+        <p class="kpi-label">Sincronizado (3 ambientes)</p>
+        <div class="kpi-value" id="kpi-pct">—<small>%</small></div>
+        <p class="kpi-foot" id="kpi-pct-foot">—</p>
+      </div>
+      <div class="kpi kpi-warn">
+        <p class="kpi-label">Pendências</p>
+        <div class="kpi-value" id="kpi-pend">—</div>
+        <p class="kpi-foot"><a onclick="filterStatusPending()">ver na tabela ↓</a></p>
+      </div>
+    </div>
+
     <div class="charts-row">
       <div class="panel">
         <p class="panel-title">Status de Sincronização</p>
