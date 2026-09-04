@@ -71,9 +71,9 @@
 
 *{box-sizing:border-box;}
 .theme-toggle{
-  position:fixed;
-  top:14px;
-  right:16px;
+  position:absolute;
+  top:24px;
+  right:24px;
   z-index:100;
   width:30px;
   height:30px;
@@ -100,6 +100,7 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 .wrap{
+  position:relative;
   max-width:1180px;
   margin:0 auto;
   padding:40px 28px 80px;
@@ -420,11 +421,11 @@ footer{
 .grid-main{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px;}
 </style>
 
-<button type="button" id="theme-toggle" class="theme-toggle" aria-label="Alternar modo claro/escuro" title="Alternar modo claro/escuro">
-  <span id="theme-icon">◐</span>
-</button>
-
 <div class="wrap">
+
+  <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Alternar modo claro/escuro" title="Alternar modo claro/escuro">
+    <span id="theme-icon">◐</span>
+  </button>
 
   <div class="eyebrow">Grupo Gadens · Governança de Processos</div>
   <h1>Painel de Organização de Documentos</h1>
