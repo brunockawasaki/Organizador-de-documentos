@@ -280,7 +280,33 @@ h1{
 }
 .chip:hover{border-color:var(--accent);color:var(--accent);}
 .chip.active{background:var(--accent);border-color:var(--accent);color:#fff;}
-.result-count{font-size:12px;color:var(--muted);margin-left:auto;white-space:nowrap;}
+.result-count{font-size:12px;color:var(--muted);white-space:nowrap;}
+.clear-filters{
+  font-family:var(--font-body);
+  font-size:12.5px;
+  font-weight:500;
+  padding:7px 12px;
+  border-radius:20px;
+  border:1px solid var(--accent);
+  background:var(--accent-soft);
+  color:var(--accent);
+  cursor:pointer;
+  margin-left:auto;
+}
+.clear-filters:hover{background:var(--accent);color:#fff;}
+.pending-banner{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:12.5px;
+  color:var(--warn);
+  background:var(--warn-soft);
+  border:1px solid var(--warn);
+  border-radius:7px;
+  padding:9px 14px;
+  margin:-6px 0 14px;
+}
+.pending-banner a{color:var(--warn);font-weight:600;cursor:pointer;text-decoration:underline;}
 
 .table-scroll{overflow-x:auto;border:1px solid var(--border-soft);border-radius:8px;}
 table{width:100%;border-collapse:collapse;font-size:13px;min-width:920px;}
@@ -417,7 +443,12 @@ footer{
         <input class="search-input" id="search" type="text" placeholder="Buscar por código, título ou setor…">
         <select class="select-input" id="setor-filter"><option value="">Todos os setores</option></select>
         <div class="chip-group" id="tipo-chips"></div>
+        <button type="button" class="clear-filters" id="clear-filters" hidden>Limpar filtros ✕</button>
         <span class="result-count" id="result-count"></span>
+      </div>
+      <div class="pending-banner" id="pending-banner" hidden>
+        Mostrando só documentos pendentes (não completos nos 3 ambientes).
+        <a onclick="clearFilters()">Voltar para todos ✕</a>
       </div>
       <div class="table-scroll">
         <table>
@@ -574,7 +605,19 @@ function renderSetorChart(){
 
 let sortKey = "setor";
 let sortDir = 1;
-let filters = {search:"", setor:"", tipos: new Set()};
+let filters = {search:"", setor:"", tipos: new Set(), statusPending:false};
+
+window.clearFilters = function(){
+  filters = {search:"", setor:"", tipos: new Set(), statusPending:false};
+  document.getElementById("search").value = "";
+  document.getElementById("setor-filter").value = "";
+  document.querySelectorAll("#tipo-chips .chip").forEach(c=>c.classList.remove("active"));
+  renderTable();
+};
+
+function hasActiveFilters(){
+  return !!(filters.search || filters.setor || filters.tipos.size || filters.statusPending);
+}
 
 function populateFilters(){
   const setorSel = document.getElementById("setor-filter");
@@ -589,6 +632,8 @@ function populateFilters(){
     filters.search = e.target.value.toLowerCase();
     renderTable();
   });
+
+  document.getElementById("clear-filters").addEventListener("click", clearFilters);
 
   const chipWrap = document.getElementById("tipo-chips");
   DATA.tipos_order.forEach(tipo=>{
@@ -682,6 +727,8 @@ function renderTable(){
     });
   }
   document.getElementById("result-count").textContent = rows.length + " de " + DATA.total;
+  document.getElementById("clear-filters").hidden = !hasActiveFilters();
+  document.getElementById("pending-banner").hidden = !filters.statusPending;
 }
 
 renderKPIs();
