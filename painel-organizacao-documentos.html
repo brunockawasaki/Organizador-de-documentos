@@ -649,8 +649,9 @@ function renderTable(){
   });
 
   document.querySelectorAll("thead th[data-key]").forEach(th=>{
+    if(!th.dataset.label) th.dataset.label = th.textContent.trim();
     th.classList.toggle("sorted", th.getAttribute("data-key")===sortKey);
-    th.innerHTML = th.textContent.replace(" ↑","").replace(" ↓","");
+    th.innerHTML = th.dataset.label;
     if(th.getAttribute("data-key")===sortKey){
       th.innerHTML += `<span class="arrow">${sortDir>0?"▲":"▼"}</span>`;
     }
