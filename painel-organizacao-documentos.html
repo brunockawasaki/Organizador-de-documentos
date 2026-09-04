@@ -205,13 +205,30 @@ h1{
 }
 
 .charts-row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
+  display:flex;
+  align-items:stretch;
   gap:14px;
   margin-top:14px;
 }
+.charts-row > .panel{
+  flex:1 1 0;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+}
+.charts-row > .panel .donut-wrap{
+  flex:1;
+  align-items:center;
+}
+.charts-row > .panel #tipo-bars{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
 @media (max-width:760px){
-  .charts-row, .kpis{grid-template-columns:1fr;}
+  .kpis{grid-template-columns:1fr;}
+  .charts-row{flex-direction:column;}
 }
 
 .donut-wrap{display:flex;align-items:center;gap:20px;}
