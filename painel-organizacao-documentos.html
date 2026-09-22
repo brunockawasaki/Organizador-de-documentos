@@ -281,6 +281,56 @@ h1{
   align-items:center;
   margin-bottom:16px;
 }
+.templates-dropdown{position:relative;}
+.templates-btn{
+  font-family:var(--font-body);
+  font-size:12.5px;
+  font-weight:500;
+  padding:7px 12px;
+  border-radius:20px;
+  border:1px solid var(--border);
+  background:var(--bg);
+  color:var(--ink-soft);
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  white-space:nowrap;
+}
+.templates-btn:hover{border-color:var(--accent);color:var(--accent);}
+.templates-btn .caret{font-size:9px;opacity:.7;}
+.templates-menu{
+  position:absolute;
+  top:calc(100% + 6px);
+  left:0;
+  min-width:260px;
+  background:var(--surface);
+  border:1px solid var(--border-soft);
+  border-radius:9px;
+  box-shadow:var(--shadow);
+  padding:6px;
+  z-index:50;
+}
+.templates-menu[hidden]{display:none;}
+.templates-menu a{
+  display:flex;
+  flex-direction:column;
+  gap:1px;
+  padding:8px 10px;
+  border-radius:6px;
+  text-decoration:none;
+  color:var(--ink);
+}
+.templates-menu a:hover{background:var(--surface-soft);}
+.templates-menu a b{font-family:var(--font-display);font-size:12.5px;color:var(--ink);}
+.templates-menu a span{font-size:11.5px;color:var(--muted);}
+.templates-menu .templates-hint{
+  font-size:11px;
+  color:var(--muted);
+  padding:6px 10px 4px;
+  border-top:1px solid var(--border-soft);
+  margin-top:4px;
+}
 .search-input{
   flex:1;
   min-width:180px;
@@ -487,6 +537,26 @@ footer{
         <input class="search-input" id="search" type="text" placeholder="Buscar por código, título ou setor…">
         <select class="select-input" id="setor-filter"><option value="">Todos os setores</option></select>
         <div class="chip-group" id="tipo-chips"></div>
+        <div class="templates-dropdown" id="templates-dropdown">
+          <button type="button" class="templates-btn" id="templates-btn" aria-haspopup="true" aria-expanded="false">
+            ⬇ Baixar Modelos <span class="caret">▾</span>
+          </button>
+          <div class="templates-menu" id="templates-menu" hidden>
+            <a href="https://grupogadens.sharepoint.com/sites/CentraldeDocumentos/Documentos/Central%20de%20Documentos/POL%C3%8DTICAS%20E%20GOVERNAN%C3%87A/Procedimento%20Operacional%20Padr%C3%A3o%20%28POP%29/0.%20Template/PO.GG.QLD.001%20-%20MODELO%20PADR%C3%83O%20DE%20POP%20-%20%20Grupo%20Gadens.docx" target="_blank" rel="noopener">
+              <b>Modelo de POP</b>
+              <span>PO.GG.QLD.001 · Word</span>
+            </a>
+            <a href="https://grupogadens.sharepoint.com/sites/CentraldeDocumentos/Documentos/Central%20de%20Documentos/POL%C3%8DTICAS%20E%20GOVERNAN%C3%87A/Instru%C3%A7%C3%B5es%20de%20Trabalho%20%28ITs%29/0.%20Template/IT.GG.PRO.001%20-%20MODELO%20PADR%C3%83O%20DE%20INSTRU%C3%87%C3%83O%20DE%20TRABALHO%20-%20%20Grupo%20Gadens.docx" target="_blank" rel="noopener">
+              <b>Modelo de IT</b>
+              <span>IT.GG.PRO.001 · Word</span>
+            </a>
+            <a href="https://grupogadens.sharepoint.com/sites/CentraldeDocumentos/Documentos/Central%20de%20Documentos/POL%C3%8DTICAS%20E%20GOVERNAN%C3%87A/Regimentos/0.%20Template/RE.GG.PRO.001%20-%20MODELO%20PADR%C3%83O%20DE%20REGIMENTO%20-%20%20Grupo%20Gadens.docx" target="_blank" rel="noopener">
+              <b>Modelo de Regimento</b>
+              <span>RE.GG.PRO.001 · Word</span>
+            </a>
+            <p class="templates-hint">Abre no SharePoint (pede login Grupo Gadens)</p>
+          </div>
+        </div>
         <button type="button" class="clear-filters" id="clear-filters" hidden>Limpar filtros ✕</button>
         <span class="result-count" id="result-count"></span>
       </div>
@@ -808,12 +878,39 @@ function initThemeToggle(){
   });
 }
 
+function initTemplatesDropdown(){
+  const btn = document.getElementById("templates-btn");
+  const menu = document.getElementById("templates-menu");
+  if(!btn || !menu) return;
+  function close(){
+    menu.hidden = true;
+    btn.setAttribute("aria-expanded", "false");
+  }
+  function open(){
+    menu.hidden = false;
+    btn.setAttribute("aria-expanded", "true");
+  }
+  btn.addEventListener("click", (e)=>{
+    e.stopPropagation();
+    if(menu.hidden) open(); else close();
+  });
+  document.addEventListener("click", (e)=>{
+    if(!menu.hidden && !menu.contains(e.target) && e.target !== btn){
+      close();
+    }
+  });
+  document.addEventListener("keydown", (e)=>{
+    if(e.key === "Escape") close();
+  });
+}
+
 renderKPIs();
 renderDonut();
 renderTipoBars();
 renderSetorChart();
 populateFilters();
 initThemeToggle();
+initTemplatesDropdown();
 renderTable();
 </script>
 
