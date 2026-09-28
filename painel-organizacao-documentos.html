@@ -331,6 +331,56 @@ h1{
   border-top:1px solid var(--border-soft);
   margin-top:4px;
 }
+
+.help-fab{
+  position:fixed;
+  left:24px;
+  bottom:24px;
+  z-index:200;
+}
+.help-fab-btn{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-family:var(--font-body);
+  font-size:13px;
+  font-weight:600;
+  padding:12px 18px 12px 16px;
+  border-radius:999px;
+  border:1px solid var(--border-soft);
+  background:var(--surface);
+  color:var(--ink);
+  box-shadow:var(--shadow);
+  cursor:pointer;
+}
+.help-fab-btn:hover{border-color:var(--accent);color:var(--accent);}
+.help-fab-icon{font-size:17px;line-height:1;}
+.help-fab-menu{
+  position:absolute;
+  left:0;
+  bottom:calc(100% + 10px);
+  min-width:220px;
+  background:var(--surface);
+  border:1px solid var(--border-soft);
+  border-radius:10px;
+  box-shadow:var(--shadow);
+  padding:6px;
+}
+.help-fab-menu[hidden]{display:none;}
+.help-fab-menu a{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:9px 10px;
+  border-radius:7px;
+  text-decoration:none;
+  color:var(--ink);
+  font-size:13px;
+  font-weight:500;
+}
+.help-fab-menu a:hover{background:var(--surface-soft);}
+.help-fab-menu .help-icon{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;}
+.help-fab-menu .help-icon svg{display:block;}
 .search-input{
   flex:1;
   min-width:180px;
@@ -617,6 +667,24 @@ footer{
   </div>
 
   <footer>Gerado a partir do Painel de Organização de Documentos · Grupo Gadens</footer>
+</div>
+
+<div class="help-fab" id="help-fab">
+  <div class="help-fab-menu" id="help-fab-menu" hidden>
+    <a href="https://wa.me/5541997593771?text=Ol%C3%A1%20Bruno%2C%20preciso%20de%20ajuda%20com%20o%20Painel%20de%20Organiza%C3%A7%C3%A3o%20de%20Documentos." target="_blank" rel="noopener">
+      <span class="help-icon">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#25D366"/><path fill="#fff" d="M12.04 6c-3.3 0-6 2.7-6 6 0 1.06.28 2.06.76 2.93L6 18l3.16-.76A6 6 0 1012.04 6zm0 1.2a4.8 4.8 0 014.8 4.8 4.8 4.8 0 01-4.8 4.8 4.77 4.77 0 01-2.4-.65l-.17-.1-1.78.43.44-1.73-.11-.18A4.78 4.78 0 017.24 12a4.8 4.8 0 014.8-4.8zm-2.24 2.5c-.13 0-.34.05-.52.25-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.36 2.08 3.3 2.84 1.63.64 1.96.51 2.32.48.36-.03 1.15-.47 1.31-.92.16-.45.16-.84.11-.92-.05-.08-.18-.13-.38-.23-.2-.1-1.15-.57-1.33-.63-.18-.06-.31-.1-.44.1-.13.2-.5.63-.61.76-.11.13-.23.14-.42.05-.2-.1-.84-.31-1.6-.99-.59-.53-.99-1.18-1.1-1.38-.11-.2-.01-.31.09-.4.09-.09.2-.23.3-.35.1-.11.13-.2.2-.33.06-.13.03-.25-.02-.35-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.1z"/></svg>
+      </span> WhatsApp
+    </a>
+    <a href="https://teams.microsoft.com/l/chat/0/0?users=bruno.kawasaki@grupogadens.com.br&message=Ol%C3%A1%20Bruno%2C%20preciso%20de%20ajuda%20com%20o%20Painel%20de%20Organiza%C3%A7%C3%A3o%20de%20Documentos." target="_blank" rel="noopener">
+      <span class="help-icon">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect width="24" height="24" rx="5" fill="#5059C9"/><path fill="#fff" d="M15.3 8.6a1.8 1.8 0 100-3.6 1.8 1.8 0 000 3.6zM18.5 9.4h-3.4v.7c0 2.1 1.4 3.9 3.3 4.4.1 0 .1.1.2.1a1.9 1.9 0 001.9-1.9V10.4c0-.5-.4-1-1-1h-1z"/><path fill="#fff" d="M9.8 8.3a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM6.5 9.4H13a.7.7 0 01.7.7v4.6A4.4 4.4 0 019.3 19a4.4 4.4 0 01-4.4-4.4v-4.6a.7.7 0 01.7-.7h.9z"/></svg>
+      </span> Microsoft Teams
+    </a>
+  </div>
+  <button type="button" class="help-fab-btn" id="help-fab-btn" aria-haspopup="true" aria-expanded="false">
+    <span class="help-fab-icon">🗨️</span> Precisa de ajuda? Fale comigo
+  </button>
 </div>
 
 <script>
@@ -969,6 +1037,32 @@ function initTemplatesDropdown(){
   });
 }
 
+function initHelpFab(){
+  const btn = document.getElementById("help-fab-btn");
+  const menu = document.getElementById("help-fab-menu");
+  if(!btn || !menu) return;
+  function close(){
+    menu.hidden = true;
+    btn.setAttribute("aria-expanded", "false");
+  }
+  function open(){
+    menu.hidden = false;
+    btn.setAttribute("aria-expanded", "true");
+  }
+  btn.addEventListener("click", (e)=>{
+    e.stopPropagation();
+    if(menu.hidden) open(); else close();
+  });
+  document.addEventListener("click", (e)=>{
+    if(!menu.hidden && !menu.contains(e.target) && e.target !== btn){
+      close();
+    }
+  });
+  document.addEventListener("keydown", (e)=>{
+    if(e.key === "Escape") close();
+  });
+}
+
 renderKPIs();
 renderDonut();
 renderTipoBars();
@@ -976,6 +1070,7 @@ renderSetorChart();
 populateFilters();
 initThemeToggle();
 initTemplatesDropdown();
+initHelpFab();
 renderTable();
 </script>
 
