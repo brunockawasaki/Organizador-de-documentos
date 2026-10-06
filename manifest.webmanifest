@@ -3,15 +3,35 @@
   "short_name": "Painel Docs",
   "description": "Situação dos documentos oficiais (POPs, ITs, Regimentos e Fluxogramas) do Grupo Gadens.",
   "lang": "pt-BR",
+  "id": "./painel-organizacao-documentos.html",
   "start_url": "./painel-organizacao-documentos.html",
   "scope": "./",
   "display": "standalone",
-  "orientation": "portrait",
   "background_color": "#F2F2F2",
   "theme_color": "#C0272D",
   "icons": [
     {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
     {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
     {"src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ],
+  "shortcuts": [
+    {
+      "name": "Buscar documento",
+      "short_name": "Buscar",
+      "url": "./painel-organizacao-documentos.html?acao=buscar",
+      "icons": [{"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png"}]
+    },
+    {
+      "name": "Meus favoritos",
+      "short_name": "Favoritos",
+      "url": "./painel-organizacao-documentos.html?acao=favoritos",
+      "icons": [{"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png"}]
+    },
+    {
+      "name": "Documentos pendentes",
+      "short_name": "Pendentes",
+      "url": "./painel-organizacao-documentos.html?acao=pendentes",
+      "icons": [{"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png"}]
+    }
   ]
 }

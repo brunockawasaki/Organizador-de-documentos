@@ -1411,6 +1411,35 @@ async function initFavoritos(){
     updateFavToggleBtn();
     renderTable();
   });
+
+  if(new URLSearchParams(location.search).get("acao") === "favoritos"){
+    document.getElementById("fav-toggle-btn").click();
+  }
+}
+
+function initDesktopShortcuts(){
+  const search = document.getElementById("search");
+  if(search) search.title = "Atalho: tecle / ou Ctrl+K para buscar";
+
+  document.addEventListener("keydown", (e)=>{
+    const tag = (e.target && e.target.tagName || "").toLowerCase();
+    const typing = tag === "input" || tag === "textarea" || tag === "select" || (e.target && e.target.isContentEditable);
+    const wantsSearch = (e.key === "/" && !typing && !e.ctrlKey && !e.metaKey && !e.altKey) || ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k");
+    if(wantsSearch && search){
+      e.preventDefault();
+      search.scrollIntoView({behavior:"smooth", block:"center"});
+      search.focus();
+      search.select();
+    }
+  });
+
+  const acao = new URLSearchParams(location.search).get("acao");
+  if(acao === "buscar" && search){
+    search.scrollIntoView({block:"center"});
+    search.focus();
+  } else if(acao === "pendentes" && typeof window.filterStatusPending === "function"){
+    window.filterStatusPending();
+  }
 }
 
 function initPwa(){
@@ -1461,5 +1490,6 @@ initHelpFab();
 initFavoritos();
 initPwa();
 renderTable();
+initDesktopShortcuts();
 </script>
 
