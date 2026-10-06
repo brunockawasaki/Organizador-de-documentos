@@ -1,14 +1,4 @@
-<meta charset="utf-8">
 <title>Painel de Organização de Documentos</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#C0272D">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Painel Docs">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<link rel="icon" type="image/png" href="icons/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -651,75 +641,6 @@ footer{
 }
 
 .grid-main{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px;}
-
-.mobile-only{display:none;}
-#install-btn[hidden]{display:none;}
-.ios-hint{margin-top:6px;}
-.ios-hint[hidden]{display:none;}
-
-@media (display-mode: standalone){
-  .wrap{padding-top:calc(40px + env(safe-area-inset-top));}
-}
-
-@media (max-width:760px){
-  .wrap{padding:28px 14px calc(96px + env(safe-area-inset-bottom));}
-  .theme-toggle{top:14px;right:14px;}
-  .eyebrow,h1{padding-right:40px;}
-  .panel{padding:16px 14px 18px;}
-  .donut-wrap{flex-wrap:wrap;justify-content:center;}
-  .setor-row{grid-template-columns:112px 1fr 28px;gap:6px;}
-  .setor-name{font-size:11.5px;}
-  .bar-label{width:70px;font-size:11.5px;}
-
-  .mobile-only{display:block;}
-  .table-controls{gap:8px;}
-  .search-input{flex:1 1 100%;min-width:0;font-size:16px;}
-  .select-input{flex:1 1 100%;min-width:0;font-size:16px;}
-  .chip{padding:8px 13px;font-size:13px;}
-  .fav-toggle,.fav-user-badge,.templates-btn,.clear-filters{min-height:40px;}
-  .templates-menu{max-width:calc(100vw - 28px);}
-  .result-count{flex:1 1 100%;text-align:right;}
-
-  .table-scroll{border:none;overflow:visible;}
-  table,tbody{display:block;width:100%;min-width:0;}
-  thead{display:none;}
-  tbody tr{
-    display:flex;
-    flex-wrap:wrap;
-    align-items:center;
-    gap:6px 10px;
-    padding:12px;
-    margin-bottom:10px;
-    border:1px solid var(--border-soft);
-    border-radius:10px;
-    background:var(--surface);
-  }
-  tbody tr:hover{background:var(--surface);}
-  tbody td{display:block;padding:0;border:none;}
-  tbody td[colspan]{flex:1 1 100%;}
-  tbody td:nth-child(1){order:1;}
-  tbody td:nth-child(3){order:2;}
-  tbody td:nth-child(5){order:3;margin-left:auto;}
-  tbody td:nth-child(4){order:4;flex:1 1 100%;min-width:0;max-width:none;font-size:14px;}
-  tbody td:nth-child(2){order:5;flex:1 1 100%;font-size:12px;color:var(--muted);}
-  tbody td:nth-child(6){order:6;}
-  tbody td:nth-child(7){order:7;}
-  tbody td:nth-child(8){order:8;}
-  tbody td:nth-child(6),tbody td:nth-child(7),tbody td:nth-child(8){
-    display:flex;align-items:center;gap:4px;font-size:11.5px;color:var(--muted);
-  }
-  tbody td:nth-child(6)::before,tbody td:nth-child(7)::before,tbody td:nth-child(8)::before{
-    content:attr(data-label);
-  }
-  tbody td:nth-child(9){order:9;}
-  tbody td:nth-child(10){order:10;margin-left:auto;}
-  .fav-star{font-size:24px;padding:4px 6px;}
-
-  .help-fab{left:12px;bottom:calc(14px + env(safe-area-inset-bottom));}
-  .help-fab-text{display:none;}
-  .help-fab-btn{padding:13px 15px;}
-  .help-fab-icon{font-size:20px;}
-}
 </style>
 
 <div class="wrap">
@@ -808,15 +729,6 @@ footer{
         </div>
         <button type="button" class="fav-toggle" id="fav-toggle-btn">☆ Só favoritos</button>
         <button type="button" class="fav-user-badge" id="fav-user-badge" title="Clique para definir ou trocar seu usuário">👤 <span id="fav-user-name">Definir usuário</span></button>
-        <button type="button" class="fav-toggle" id="install-btn" hidden>📲 Instalar app</button>
-        <select class="select-input mobile-only" id="sort-mobile" aria-label="Ordenar por">
-          <option value="setor">Ordenar: Setor</option>
-          <option value="codigo">Ordenar: Código</option>
-          <option value="titulo">Ordenar: Título</option>
-          <option value="tipo">Ordenar: Tipo</option>
-          <option value="status">Ordenar: Status</option>
-          <option value="data">Ordenar: Atualizado em</option>
-        </select>
         <button type="button" class="clear-filters" id="clear-filters" hidden>Limpar filtros ✕</button>
         <span class="result-count" id="result-count"></span>
       </div>
@@ -846,9 +758,7 @@ footer{
     </div>
   </div>
 
-  <footer>Gerado a partir do Painel de Organização de Documentos · Grupo Gadens
-    <div class="ios-hint" id="ios-hint" hidden>Para instalar no iPhone: toque em Compartilhar e depois em "Adicionar à Tela de Início".</div>
-  </footer>
+  <footer>Gerado a partir do Painel de Organização de Documentos · Grupo Gadens</footer>
 </div>
 
 <div class="help-fab" id="help-fab">
@@ -865,7 +775,7 @@ footer{
     </a>
   </div>
   <button type="button" class="help-fab-btn" id="help-fab-btn" aria-haspopup="true" aria-expanded="false">
-    <span class="help-fab-icon">🗨️</span><span class="help-fab-text"> Precisa de ajuda? Fale comigo</span>
+    <span class="help-fab-icon">🗨️</span> Precisa de ajuda? Fale comigo
   </button>
 </div>
 
@@ -1047,13 +957,6 @@ function populateFilters(){
 
   document.getElementById("clear-filters").addEventListener("click", clearFilters);
 
-  const sortMobile = document.getElementById("sort-mobile");
-  sortMobile.addEventListener("change", e=>{
-    sortKey = e.target.value;
-    sortDir = 1;
-    renderTable();
-  });
-
   const chipWrap = document.getElementById("tipo-chips");
   DATA.tipos_order.forEach(tipo=>{
     const chip = el("div", {class:"chip", "data-tipo":tipo}, [document.createTextNode(tipo)]);
@@ -1175,9 +1078,9 @@ function renderTable(){
         <td class="td-codigo">${r.codigo}</td>
         <td class="td-titulo">${titleCell}${contentHit}</td>
         <td><span class="tipo-tag">${r.tipo}</span></td>
-        <td class="amb-cell" data-label="Central">${amb(r.amb1)}</td>
-        <td class="amb-cell" data-label="Repositório">${amb(r.amb2)}</td>
-        <td class="amb-cell" data-label="Next">${amb(r.amb3)}</td>
+        <td class="amb-cell">${amb(r.amb1)}</td>
+        <td class="amb-cell">${amb(r.amb2)}</td>
+        <td class="amb-cell">${amb(r.amb3)}</td>
         <td><span class="status-pill status-${r.status}">${r.status}</span></td>
         <td class="td-data">${r.data}</td>
       `;
@@ -1413,43 +1316,6 @@ async function initFavoritos(){
   });
 }
 
-function initPwa(){
-  const searchEl = document.getElementById("search");
-  if(searchEl && window.matchMedia && window.matchMedia("(max-width:760px)").matches){
-    searchEl.placeholder = "Buscar documento ou palavra…";
-  }
-  const isStandalone = (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || window.navigator.standalone === true;
-
-  if("serviceWorker" in navigator && /^https?:$/.test(location.protocol)){
-    window.addEventListener("load", ()=>{
-      try{ navigator.serviceWorker.register("sw.js").catch(()=>{}); }catch(e){}
-    });
-  }
-
-  const installBtn = document.getElementById("install-btn");
-  let deferredPrompt = null;
-  window.addEventListener("beforeinstallprompt", (e)=>{
-    e.preventDefault();
-    deferredPrompt = e;
-    if(installBtn && !isStandalone) installBtn.hidden = false;
-  });
-  if(installBtn){
-    installBtn.addEventListener("click", async ()=>{
-      if(!deferredPrompt) return;
-      deferredPrompt.prompt();
-      try{ await deferredPrompt.userChoice; }catch(e){}
-      deferredPrompt = null;
-      installBtn.hidden = true;
-    });
-  }
-  window.addEventListener("appinstalled", ()=>{ if(installBtn) installBtn.hidden = true; });
-
-  const ua = navigator.userAgent || "";
-  const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-  const hint = document.getElementById("ios-hint");
-  if(hint && isIOS && !isStandalone) hint.hidden = false;
-}
-
 renderKPIs();
 renderDonut();
 renderTipoBars();
@@ -1459,7 +1325,6 @@ initThemeToggle();
 initTemplatesDropdown();
 initHelpFab();
 initFavoritos();
-initPwa();
 renderTable();
 </script>
 
