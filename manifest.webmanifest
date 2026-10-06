@@ -1,6 +1,6 @@
 {
-  "name": "Painel de Organização de Documentos",
-  "short_name": "Painel Docs",
+  "name": "G-Docs · Painel de Organização de Documentos",
+  "short_name": "G-Docs",
   "description": "Situação dos documentos oficiais (POPs, ITs, Regimentos e Fluxogramas) do Grupo Gadens.",
   "lang": "pt-BR",
   "id": "./painel-organizacao-documentos.html",
