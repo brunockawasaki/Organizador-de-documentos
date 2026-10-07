@@ -1215,7 +1215,9 @@ footer{
     background:#1b3320;
     color:#7ee08a;
     border-color:#2e7d32;
-  }}#elab-root{--elab-top:0px;}#elab-root h1{font-family:inherit;font-weight:700;letter-spacing:normal;text-wrap:wrap;}@media (max-width:760px){#elab-root{--elab-top:61px;}}
+  }}#elab-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);max-width:min(520px,calc(100vw - 32px));padding:12px 18px;border-radius:10px;background:#2b2b2b;color:#fff;font-size:13.5px;line-height:1.45;box-shadow:0 8px 24px rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:600;}
+#elab-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#elab-root{--elab-top:0px;}#elab-root h1{font-family:inherit;font-weight:700;letter-spacing:normal;text-wrap:wrap;}@media (max-width:760px){#elab-root{--elab-top:61px;}}
 </style>
 
 <div class="app" id="app" data-view="resumo">
@@ -2221,6 +2223,37 @@ initDesktopShortcuts();
 (function(){
   "use strict";
 
+  var elabToastTimer = null;
+  function elabToast(msg){
+    var t = document.getElementById("elab-toast");
+    if(!t){
+      t = document.createElement("div");
+      t.id = "elab-toast";
+      t.setAttribute("role", "status");
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.classList.add("show");
+    if(elabToastTimer) clearTimeout(elabToastTimer);
+    elabToastTimer = setTimeout(function(){ t.classList.remove("show"); }, 7000);
+  }
+  var alert = function(msg){ elabToast(msg); };
+  var elabBlockedHint = (window.self !== window.top) ? " Este recurso é bloqueado quando o painel é aberto dentro do Claude. Use o endereço do G-Docs no GitHub Pages." : "";
+
+  function elabCopyFallback(text){
+    try{
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.cssText = "position:fixed;top:0;left:0;opacity:0;";
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      return ok;
+    }catch(e){ return false; }
+  }
+
   var STORAGE_KEY = "gadens_levantamento_pop_v1";
   var THEME_KEY = "gadens_pop_theme";
 
@@ -2903,7 +2936,13 @@ initDesktopShortcuts();
 
         recognition.onerror = function(e){
           if(e.error === "not-allowed" || e.error === "service-not-allowed"){
-            alert("Permissão de microfone negada. Habilite o microfone nas configurações do navegador para usar o ditado por voz.");
+            alert("Permissão de microfone negada. Habilite o microfone nas configurações do navegador para usar o ditado por voz." + elabBlockedHint);
+          }else if(e.error === "audio-capture"){
+            alert("Não encontrei nenhum microfone neste computador.");
+          }else if(e.error === "network"){
+            alert("O ditado por voz precisa de internet. Verifique a conexão e tente de novo.");
+          }else if(e.error !== "no-speech" && e.error !== "aborted"){
+            alert("Não consegui usar o ditado por voz (" + e.error + ")." + elabBlockedHint);
           }
         };
 
@@ -2918,6 +2957,7 @@ initDesktopShortcuts();
           recognition.start();
         }catch(err){
           btn.classList.remove("listening");
+          alert("Não consegui iniciar o ditado por voz." + elabBlockedHint);
         }
       });
     });
@@ -2940,8 +2980,15 @@ initDesktopShortcuts();
         }
         var promptText = buildImprovePrompt(text);
         var originalTitle = btn.title;
+        var copiado = false;
         try{
           await navigator.clipboard.writeText(promptText);
+          copiado = true;
+        }catch(err){
+          copiado = elabCopyFallback(promptText);
+        }
+        try{
+          if(!copiado) throw new Error("copy-failed");
           btn.classList.add("copied");
           btn.title = "Copiado! Cole (Ctrl+V) na aba do Gemini que abriu.";
           setTimeout(function(){
@@ -2950,7 +2997,7 @@ initDesktopShortcuts();
           }, 2500);
           window.open("https://gemini.google.com/app", "_blank", "noopener");
         }catch(err){
-          alert("Não foi possível copiar automaticamente. Selecione o texto manualmente e copie (Ctrl+C).");
+          alert("Não foi possível copiar automaticamente. Selecione o texto manualmente e copie (Ctrl+C)." + elabBlockedHint);
         }
       });
     });
