@@ -1170,7 +1170,53 @@ footer{
     }#elab-root table.dyn-table{
       -webkit-print-color-adjust:exact;
       print-color-adjust:exact;
-    }#elab-root .bloco{break-inside:avoid;}#elab-root textarea{border:1px solid #999; min-height:auto;}}:root[data-theme="dark"] #elab-root{
+    }#elab-root .bloco{break-inside:avoid;}#elab-root textarea{border:1px solid #999; min-height:auto;}}#elab-root .btn-ex{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:22px;
+    height:22px;
+    margin-left:8px;
+    border-radius:50%;
+    border:none;
+    background:#fff;
+    color:var(--cinza);
+    font-size:.8rem;
+    font-weight:800;
+    line-height:1;
+    cursor:pointer;
+    padding:0;
+    vertical-align:middle;
+  }#elab-root .btn-ex:hover{background:#ffd7d7; color:var(--vermelho);}#elab-root .btn-ex:focus-visible{outline:2px solid #fff; outline-offset:2px;}#elab-root .ex-overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:400;
+    background:rgba(0,0,0,.55);
+    align-items:center;
+    justify-content:center;
+    padding:12px;
+  }#elab-root .ex-overlay.open{display:flex;}#elab-root .ex-panel{
+    background:#fff;
+    color:#2b2b2b;
+    border-radius:12px;
+    width:100%;
+    max-width:620px;
+    max-height:90vh;
+    overflow:auto;
+    padding:18px 22px 20px;
+    box-shadow:0 10px 40px rgba(0,0,0,.35);
+  }#elab-root .ex-head{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:10px;}#elab-root .ex-head-title{font-size:.8rem; font-weight:700; color:var(--vermelho); text-transform:uppercase; letter-spacing:.4px;}#elab-root .ex-close{
+    border:none; background:transparent; color:var(--cinza);
+    font-size:1.6rem; line-height:1; cursor:pointer; padding:0 4px;
+  }#elab-root .ex-question{font-size:1.02rem; font-weight:700; margin:0 0 12px;}#elab-root .ex-sec{font-size:.78rem; font-weight:700; color:var(--cinza); text-transform:uppercase; letter-spacing:.3px; margin:14px 0 6px;}#elab-root .ex-dica{margin:0; font-size:.92rem; font-style:italic; color:var(--dica);}#elab-root .ex-list{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:8px;}#elab-root .ex-list li{
+    background:#f6f6f6;
+    border-left:4px solid var(--vermelho);
+    border-radius:4px;
+    padding:9px 12px;
+    font-size:.92rem;
+    line-height:1.45;
+  }#elab-root .ex-table{width:100%; border-collapse:collapse; font-size:.88rem;}#elab-root .ex-table th,#elab-root .ex-table td{border:1px solid var(--borda); padding:6px 8px; text-align:left;}#elab-root .ex-table th{background:#f2f2f2;}#elab-root .ex-actions{display:flex; justify-content:flex-end; margin-top:16px;}@media print{#elab-root .btn-ex,#elab-root .ex-overlay{display:none !important;}}:root[data-theme="dark"] #elab-root{
     --fundo:#1a1a1a;
     --borda:#4a4a4a;
     --dica:#a8a8a8;
@@ -1215,7 +1261,7 @@ footer{
     background:#1b3320;
     color:#7ee08a;
     border-color:#2e7d32;
-  }:root[data-theme="dark"] #elab-root .vm-panel{background:#242424; color:#e8e8e8;}:root[data-theme="dark"] #elab-root .vm-title{color:#e8e8e8;}:root[data-theme="dark"] #elab-root .vm-bar{background:#3a3a3a;}:root[data-theme="dark"] #elab-root .vm-status{background:#2e2e2e; border-color:#3a3a3a; color:#cfcfcf;}:root[data-theme="dark"] #elab-root .vm-answer{background:#2e2e2e; color:#e8e8e8; border-color:#3a3a3a;}:root[data-theme="dark"] #elab-root .vm-preview{background:#2a2a2a; border-color:#3a3a3a;}:root[data-theme="dark"] #elab-root .vm-chip{background:#242424;}:root[data-theme="dark"] #elab-root .vm-chip:hover{background:var(--vermelho);}:root[data-theme="dark"] #elab-root .vm-nav{border-top-color:#3a3a3a;}:root[data-theme="dark"] #elab-root .vm-msg{background:#3a2222; color:#ff9d9d;}@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) #elab-root{
+  }:root[data-theme="dark"] #elab-root .vm-panel{background:#242424; color:#e8e8e8;}:root[data-theme="dark"] #elab-root .vm-title{color:#e8e8e8;}:root[data-theme="dark"] #elab-root .vm-bar{background:#3a3a3a;}:root[data-theme="dark"] #elab-root .vm-status{background:#2e2e2e; border-color:#3a3a3a; color:#cfcfcf;}:root[data-theme="dark"] #elab-root .vm-answer{background:#2e2e2e; color:#e8e8e8; border-color:#3a3a3a;}:root[data-theme="dark"] #elab-root .vm-preview{background:#2a2a2a; border-color:#3a3a3a;}:root[data-theme="dark"] #elab-root .vm-chip{background:#242424;}:root[data-theme="dark"] #elab-root .vm-chip:hover{background:var(--vermelho);}:root[data-theme="dark"] #elab-root .vm-nav{border-top-color:#3a3a3a;}:root[data-theme="dark"] #elab-root .vm-msg{background:#3a2222; color:#ff9d9d;}:root[data-theme="dark"] #elab-root .ex-panel{background:#242424; color:#e8e8e8;}:root[data-theme="dark"] #elab-root .ex-list li{background:#2e2e2e;}:root[data-theme="dark"] #elab-root .ex-table th{background:#2e2e2e;}@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) #elab-root{
     --fundo:#1a1a1a;
     --borda:#4a4a4a;
     --dica:#a8a8a8;
@@ -1260,7 +1306,7 @@ footer{
     background:#1b3320;
     color:#7ee08a;
     border-color:#2e7d32;
-  }:root:not([data-theme="light"]) #elab-root .vm-panel{background:#242424; color:#e8e8e8;}:root:not([data-theme="light"]) #elab-root .vm-title{color:#e8e8e8;}:root:not([data-theme="light"]) #elab-root .vm-bar{background:#3a3a3a;}:root:not([data-theme="light"]) #elab-root .vm-status{background:#2e2e2e; border-color:#3a3a3a; color:#cfcfcf;}:root:not([data-theme="light"]) #elab-root .vm-answer{background:#2e2e2e; color:#e8e8e8; border-color:#3a3a3a;}:root:not([data-theme="light"]) #elab-root .vm-preview{background:#2a2a2a; border-color:#3a3a3a;}:root:not([data-theme="light"]) #elab-root .vm-chip{background:#242424;}:root:not([data-theme="light"]) #elab-root .vm-chip:hover{background:var(--vermelho);}:root:not([data-theme="light"]) #elab-root .vm-nav{border-top-color:#3a3a3a;}:root:not([data-theme="light"]) #elab-root .vm-msg{background:#3a2222; color:#ff9d9d;}}#elab-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);max-width:min(520px,calc(100vw - 32px));padding:12px 18px;border-radius:10px;background:#2b2b2b;color:#fff;font-size:13.5px;line-height:1.45;box-shadow:0 8px 24px rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:600;}#elab-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}#elab-root{--elab-top:0px;}#elab-root h1{font-family:inherit;font-weight:700;letter-spacing:normal;text-wrap:wrap;}@media (max-width:760px){#elab-root{--elab-top:61px;}}
+  }:root:not([data-theme="light"]) #elab-root .vm-panel{background:#242424; color:#e8e8e8;}:root:not([data-theme="light"]) #elab-root .vm-title{color:#e8e8e8;}:root:not([data-theme="light"]) #elab-root .vm-bar{background:#3a3a3a;}:root:not([data-theme="light"]) #elab-root .vm-status{background:#2e2e2e; border-color:#3a3a3a; color:#cfcfcf;}:root:not([data-theme="light"]) #elab-root .vm-answer{background:#2e2e2e; color:#e8e8e8; border-color:#3a3a3a;}:root:not([data-theme="light"]) #elab-root .vm-preview{background:#2a2a2a; border-color:#3a3a3a;}:root:not([data-theme="light"]) #elab-root .vm-chip{background:#242424;}:root:not([data-theme="light"]) #elab-root .vm-chip:hover{background:var(--vermelho);}:root:not([data-theme="light"]) #elab-root .vm-nav{border-top-color:#3a3a3a;}:root:not([data-theme="light"]) #elab-root .vm-msg{background:#3a2222; color:#ff9d9d;}:root:not([data-theme="light"]) #elab-root .ex-panel{background:#242424; color:#e8e8e8;}:root:not([data-theme="light"]) #elab-root .ex-list li{background:#2e2e2e;}:root:not([data-theme="light"]) #elab-root .ex-table th{background:#2e2e2e;}}#elab-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);max-width:min(520px,calc(100vw - 32px));padding:12px 18px;border-radius:10px;background:#2b2b2b;color:#fff;font-size:13.5px;line-height:1.45;box-shadow:0 8px 24px rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:600;}#elab-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}#elab-root{--elab-top:0px;}#elab-root h1{font-family:inherit;font-weight:700;letter-spacing:normal;text-wrap:wrap;}@media (max-width:760px){#elab-root{--elab-top:61px;}}
 </style>
 
 <div class="app" id="app" data-view="resumo">
@@ -1554,6 +1600,18 @@ footer{
   </div>
 
   <footer class="rodape">Grupo Gadens — Levantamento de Processo (base para POP)</footer>
+</div>
+
+<div id="ex-overlay" class="ex-overlay" role="dialog" aria-modal="true" aria-labelledby="ex-question">
+  <div class="ex-panel">
+    <div class="ex-head">
+      <div class="ex-head-title">Exemplos de referência</div>
+      <button type="button" class="ex-close" id="ex-close" aria-label="Fechar" title="Fechar">&times;</button>
+    </div>
+    <p class="ex-question" id="ex-question"></p>
+    <div id="ex-body"></div>
+    <div class="ex-actions"><button type="button" class="btn btn-outline" id="ex-ok">Fechar</button></div>
+  </div>
 </div>
 
 <div id="vm-overlay" class="vm-overlay" role="dialog" aria-modal="true" aria-label="Modo por voz">
@@ -2308,6 +2366,7 @@ initNav();
 initDesktopShortcuts();
 </script>
 
+
 <script>
 
 /* fflate v0.8.2 (MIT License) - https://github.com/101arrowz/fflate - embutido offline para ler/escrever .docx (zip) no navegador */
@@ -2454,7 +2513,8 @@ initDesktopShortcuts();
   QUESTIONS.forEach(function(q){
     htmlParts.push('<div class="bloco" data-block="' + q.id + '">');
     htmlParts.push('<div class="section-bar"><h3>' + q.num + '. ' + escapeHtml(q.title) +
-      (q.required ? ' <span class="req-mark">*</span>' : '') + '</h3>' +
+      (q.required ? ' <span class="req-mark">*</span>' : '') +
+      ' <button type="button" class="btn-ex" data-qid="' + q.id + '" aria-label="Ver exemplos de resposta" title="Ver exemplos de resposta">?</button></h3>' +
       (q.label ? '<span class="tag">[' + escapeHtml(q.label) + ']</span>' : '<span class="tag">[apoio ao elaborador]</span>') +
       '</div>');
     htmlParts.push('<p class="dica">' + escapeHtml(q.dica) + '</p>');
@@ -3747,6 +3807,63 @@ initDesktopShortcuts();
       $("btn-enviar").click();
     });
     $("btn-voz").addEventListener("click", openVM);
+  })();
+
+  // ---------- Exemplos de referência (botão ? de cada pergunta) ----------
+  // Texto: EXEMPLOS.qN = ["exemplo 1", "exemplo 2"]. Tabela: EXEMPLOS.qN = [["col1","col2"], ...].
+  var EXEMPLOS = {};
+
+  (function(){
+    var exOverlay = document.getElementById("ex-overlay");
+    var exQuestion = document.getElementById("ex-question");
+    var exBody = document.getElementById("ex-body");
+    var exLastFocus = null;
+
+    function openEx(qid){
+      var q = qById[qid];
+      if(!q) return;
+      exQuestion.textContent = q.num + ". " + q.title;
+      var html = "";
+      if(q.dica){
+        html += '<div class="ex-sec">Como preencher</div><p class="ex-dica">' + escapeHtml(q.dica) + '</p>';
+      }
+      var lista = EXEMPLOS[q.id] || [];
+      if(q.type === "table"){
+        var rows = lista.length ? lista : [q.example];
+        html += '<div class="ex-sec">' + (rows.length > 1 ? "Exemplos" : "Exemplo") + '</div><table class="ex-table"><thead><tr>';
+        q.columns.forEach(function(c){ html += '<th>' + escapeHtml(c) + '</th>'; });
+        html += '</tr></thead><tbody>';
+        rows.forEach(function(r){
+          html += '<tr>';
+          r.forEach(function(v){ html += '<td>' + escapeHtml(v) + '</td>'; });
+          html += '</tr>';
+        });
+        html += '</tbody></table>';
+      } else if(lista.length){
+        html += '<div class="ex-sec">' + (lista.length > 1 ? "Exemplos" : "Exemplo") + '</div><ul class="ex-list">';
+        lista.forEach(function(t){ html += '<li>' + escapeHtml(t) + '</li>'; });
+        html += '</ul>';
+      }
+      exBody.innerHTML = html;
+      exLastFocus = document.activeElement;
+      exOverlay.classList.add("open");
+      document.getElementById("ex-ok").focus();
+    }
+
+    function closeEx(){
+      if(!exOverlay.classList.contains("open")) return;
+      exOverlay.classList.remove("open");
+      if(exLastFocus && exLastFocus.focus) exLastFocus.focus();
+    }
+
+    container.addEventListener("click", function(e){
+      var b = e.target.closest ? e.target.closest(".btn-ex") : null;
+      if(b) openEx(b.getAttribute("data-qid"));
+    });
+    document.getElementById("ex-close").addEventListener("click", closeEx);
+    document.getElementById("ex-ok").addEventListener("click", closeEx);
+    exOverlay.addEventListener("click", function(e){ if(e.target === exOverlay) closeEx(); });
+    document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeEx(); });
   })();
 
   // ---------- Início ----------
