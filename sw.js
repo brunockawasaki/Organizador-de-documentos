@@ -1,4 +1,5 @@
-const CACHE = "painel-docs-v1";
+// Mesma versão que aparece no rodapé do painel; mudar junto a cada publicação (troca a cópia guardada do app instalado).
+const CACHE = "painel-docs-v1.0.0";
 const PAGE = "painel-organizacao-documentos.html";
 const PRECACHE = [
   "./" + PAGE,
