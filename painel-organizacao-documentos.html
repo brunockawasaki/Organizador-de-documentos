@@ -3959,7 +3959,8 @@ function populateFilters(){
   });
 
   const chipWrap = document.getElementById("tipo-chips");
-  DATA.tipos_order.forEach(tipo=>{
+  // "Política" não tem filtro próprio: o acesso é pelo botão Políticas ao lado
+  DATA.tipos_order.filter(tipo=>tipo !== "Política").forEach(tipo=>{
     const chip = el("div", {class:"chip", "data-tipo":tipo}, [document.createTextNode(tipo)]);
     chip.addEventListener("click", ()=>{
       if(filters.tipos.has(tipo)){ filters.tipos.delete(tipo); chip.classList.remove("active"); }
