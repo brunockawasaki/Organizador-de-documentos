@@ -334,6 +334,10 @@ h1{
 .templates-menu a:hover{background:var(--surface-soft);}
 .templates-menu a b{font-family:var(--font-display);font-size:12.5px;color:var(--ink);}
 .templates-menu a span{font-size:11.5px;color:var(--muted);}
+.templates-menu a.active{background:var(--accent-soft);}
+.templates-menu a.active b{color:var(--accent);}
+.templates-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.templates-btn.active:hover{color:#fff;}
 .templates-menu .templates-hint{
   font-size:11px;
   color:var(--muted);
@@ -2992,15 +2996,15 @@ footer{
             Políticas <span class="caret">▾</span>
           </button>
           <div class="templates-menu" id="policies-menu" hidden>
-            <a href="https://grupogadens.sharepoint.com/sites/CentraldeDocumentos/Documentos/Forms/AllItems.aspx?id=%2Fsites%2FCentraldeDocumentos%2FDocumentos%2FCentral%20de%20Documentos%2FPOL%C3%8DTICAS%20E%20GOVERNAN%C3%87A%2FPoliticas%20%20Compliance&amp;viewid=9ce62227%2D57e6%2D41ba%2D9f55%2D5b34157fcf3a&amp;FolderCTID=0x012000E9A2C82278428F48BE6229BB0AA8A889" target="_blank" rel="noopener">
+            <a href="#" data-setor="Política de Compliance">
               <b>Política de Compliance</b>
-              <span>Pasta na Central de Documentos</span>
+              <span>Mostrar só estas políticas na tabela</span>
             </a>
-            <a href="https://grupogadens.sharepoint.com/sites/CentraldeDocumentos/Documentos/Forms/AllItems.aspx?id=%2Fsites%2FCentraldeDocumentos%2FDocumentos%2FCentral%20de%20Documentos%2FPOL%C3%8DTICAS%20E%20GOVERNAN%C3%87A%2FPol%C3%ADticas%20de%20Departamento&amp;viewid=9ce62227%2D57e6%2D41ba%2D9f55%2D5b34157fcf3a&amp;FolderCTID=0x012000E9A2C82278428F48BE6229BB0AA8A889" target="_blank" rel="noopener">
+            <a href="#" data-setor="Política de Departamento">
               <b>Política de Departamento</b>
-              <span>Pasta na Central de Documentos</span>
+              <span>Mostrar só estas políticas na tabela</span>
             </a>
-            <p class="templates-hint">Abre no SharePoint (pede login Grupo Gadens)</p>
+            <p class="templates-hint">Clique de novo para tirar o filtro</p>
           </div>
         </div>
         <div class="templates-dropdown" id="templates-dropdown">
@@ -4096,6 +4100,12 @@ function renderTable(){
   document.getElementById("result-count").textContent = rows.length + " de " + DATA.total;
   document.getElementById("clear-filters").hidden = !hasActiveFilters();
   document.getElementById("pending-banner").hidden = !filters.statusPending;
+  const polBtn = document.getElementById("policies-btn");
+  if(polBtn){
+    const polSetores = [...document.querySelectorAll("#policies-menu a[data-setor]")].map(a=>a.getAttribute("data-setor"));
+    polBtn.classList.toggle("active", polSetores.includes(filters.setor));
+    document.querySelectorAll("#policies-menu a[data-setor]").forEach(a=>a.classList.toggle("active", a.getAttribute("data-setor") === filters.setor));
+  }
   const favCount = document.getElementById("nav-fav-count");
   if(favCount){
     favCount.textContent = favoritos.size;
@@ -4168,6 +4178,17 @@ function initTemplatesDropdown(){
   });
   document.addEventListener("keydown", (e)=>{
     if(e.key === "Escape") pares.forEach(close);
+  });
+  // opções do menu Políticas: filtram a tabela pelo setor (clicar de novo tira o filtro)
+  document.querySelectorAll("#policies-menu a[data-setor]").forEach(a=>{
+    a.addEventListener("click", (e)=>{
+      e.preventDefault();
+      const setor = a.getAttribute("data-setor");
+      filters.setor = (filters.setor === setor) ? "" : setor;
+      document.getElementById("setor-filter").value = filters.setor;
+      renderTable();
+      pares.forEach(close);
+    });
   });
 }
 
