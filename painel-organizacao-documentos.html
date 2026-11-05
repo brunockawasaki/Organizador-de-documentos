@@ -597,6 +597,8 @@ h1{
 .status-Ausente{background:var(--crit-soft);color:var(--crit);}
 .td-data{color:var(--muted);font-size:12.5px;white-space:nowrap;}
 .td-aprov{font-size:12.5px;color:var(--ink-soft);min-width:190px;line-height:1.4;}
+.table-scroll thead th[data-key="aprovacao"],.table-scroll tbody td.td-aprov{padding-left:36px;}
+.table-scroll tbody td:has(> .tipo-tag){padding-right:20px;}
 .empty-state{padding:40px;text-align:center;color:var(--muted);font-size:13px;}
 
 footer{
@@ -784,7 +786,7 @@ footer{
     background:var(--surface);
   }
   .table-scroll tbody tr:hover{background:var(--surface);}
-  .table-scroll tbody td{display:block;padding:0;border:none;}
+  .table-scroll tbody td,.table-scroll tbody td.td-aprov,.table-scroll tbody td:has(> .tipo-tag){display:block;padding:0;border:none;}
   .table-scroll tbody td[colspan]{flex:1 1 100%;}
   .table-scroll tbody td:nth-child(1){order:1;}
   .table-scroll tbody td:nth-child(3){order:2;}
@@ -4441,7 +4443,7 @@ footer{
   </div>
 
   <!-- VERSÃO: a cada publicação no GitHub, mudar aqui, em CACHE no sw.js e na tabela de versões do CLAUDE.md -->
-  <footer>Gerado a partir do Painel de Organização de Documentos · Grupo Gadens · <span id="app-versao">Versão 2.1.1 · 05/11/2026</span>
+  <footer>Gerado a partir do Painel de Organização de Documentos · Grupo Gadens · <span id="app-versao">Versão 2.1.2 · 05/11/2026</span>
     <div class="ios-hint" id="ios-hint" hidden>Para instalar no iPhone: toque em Compartilhar e depois em "Adicionar à Tela de Início".</div>
   </footer>
 </div>
