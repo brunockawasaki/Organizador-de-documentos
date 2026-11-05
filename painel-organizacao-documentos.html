@@ -792,8 +792,7 @@ footer{
   .table-scroll tbody td:nth-child(4){order:4;flex:1 1 100%;min-width:0;max-width:none;font-size:14px;}
   .table-scroll tbody td:nth-child(2){order:5;flex:1 1 100%;font-size:12px;color:var(--muted);}
   .table-scroll tbody td:nth-child(6){order:6;flex:1 1 100%;min-width:0;font-size:12px;color:var(--muted);}
-  .table-scroll tbody td:nth-child(7){order:7;}
-  .table-scroll tbody td:nth-child(8){order:8;margin-left:auto;}
+  .table-scroll tbody td:nth-child(7){order:7;margin-left:auto;}
   .fav-star{font-size:24px;padding:4px 6px;}
 
 }
@@ -3400,8 +3399,8 @@ footer{
       <a class="sb-sub-link" href="#/elaborar" data-nav="elaborar" title="Elaborar POP"><svg class="sb-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/><path d="M9 12h6M9 16h6"/></svg><i class="sb-sub-label">POP</i></a>
       <a class="sb-sub-link" href="#/elaborar-it" data-nav="elaborar-it" title="Elaborar IT"><svg class="sb-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4h6v3H9z"/><path d="M7 5.5H5.5V20h13V5.5H17"/><path d="M8.5 11.5l1.3 1.3 2.2-2.4"/><path d="M13.5 12h3M8.5 16.5l1.3 1.3 2.2-2.4M13.5 17h3"/></svg><i class="sb-sub-label">IT</i></a>
       <a class="sb-sub-link" href="#/elaborar-regimento" data-nav="elaborar-regimento" title="Elaborar Regimento"><svg class="sb-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><path d="M15.5 14.3c.5-.2 1-.3 1.5-.3 2.3 0 3.8 1.6 3.8 4"/></svg><i class="sb-sub-label">Regimento</i></a>
+      <a class="sb-sub-link" href="#/elaborar-politica" data-nav="elaborar-politica" title="Elaborar Política"><svg class="sb-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21h16"/><path d="M5 10h14"/><path d="M12 3l9 5H3z"/><path d="M6 10v8M10 10v8M14 10v8M18 10v8"/></svg><i class="sb-sub-label">Política</i></a>
       <a class="sb-sub-link" href="#/elaborar-ata" data-nav="elaborar-ata" title="Elaborar Súmula"><svg class="sb-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18H6z"/><path d="M9 8h6M9 12h6M9 16h3"/><path d="M15 16.5l1.2 1.2 2-2.2"/></svg><i class="sb-sub-label">Súmula</i></a>
-      <a class="sb-sub-link" href="#/elaborar-politica" data-nav="elaborar-politica" title="Elaborar Política"><svg class="sb-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.500-3 8-7 10-4-2-7-5.500-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg><i class="sb-sub-label">Política</i></a>
     </div>
     <button type="button" class="sb-link sb-contact-toggle" id="sb-contact-toggle" aria-expanded="false" aria-controls="sb-contact" title="Fale comigo">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>
@@ -3541,7 +3540,6 @@ footer{
           <option value="codigo">Ordenar: Código</option>
           <option value="titulo">Ordenar: Título</option>
           <option value="tipo">Ordenar: Tipo</option>
-          <option value="status">Ordenar: Status</option>
           <option value="data">Ordenar: Atualizado em</option>
         </select>
         <button type="button" class="clear-filters" id="clear-filters" hidden>Limpar filtros ✕</button>
@@ -3561,7 +3559,6 @@ footer{
               <th data-key="titulo">Título</th>
               <th data-key="tipo">Tipo</th>
               <th data-key="aprovacao">Aprovação</th>
-              <th data-key="status">Status</th>
               <th data-key="data">Atualizado em</th>
             </tr>
           </thead>
@@ -4444,7 +4441,7 @@ footer{
   </div>
 
   <!-- VERSÃO: a cada publicação no GitHub, mudar aqui, em CACHE no sw.js e na tabela de versões do CLAUDE.md -->
-  <footer>Gerado a partir do Painel de Organização de Documentos · Grupo Gadens · <span id="app-versao">Versão 2.1.0 · 05/11/2026</span>
+  <footer>Gerado a partir do Painel de Organização de Documentos · Grupo Gadens · <span id="app-versao">Versão 2.1.1 · 05/11/2026</span>
     <div class="ios-hint" id="ios-hint" hidden>Para instalar no iPhone: toque em Compartilhar e depois em "Adicionar à Tela de Início".</div>
   </footer>
 </div>
@@ -4735,7 +4732,7 @@ function renderTable(){
   const tbody = document.getElementById("tbody");
   tbody.innerHTML = "";
   if(rows.length === 0){
-    tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state">${favoritosOnly ? "Você ainda não marcou nenhum favorito." : "Nenhum documento encontrado com esses filtros."}</div></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state">${favoritosOnly ? "Você ainda não marcou nenhum favorito." : "Nenhum documento encontrado com esses filtros."}</div></td></tr>`;
   } else {
     rows.forEach(r=>{
       const tr = document.createElement("tr");
@@ -4760,7 +4757,6 @@ function renderTable(){
         <td class="td-titulo">${titleCell}${contentHit}</td>
         <td><span class="tipo-tag">${r.tipo}</span></td>
         <td class="td-aprov">${r.aprovacao ? escapeHtml(r.aprovacao) : '<span class="amb-no">—</span>'}</td>
-        <td><span class="status-pill status-${r.status}">${r.status}</span></td>
         <td class="td-data">${r.data}</td>
       `;
       tr.querySelector(".fav-star").addEventListener("click", (e)=>{
