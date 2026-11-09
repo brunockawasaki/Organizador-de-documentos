@@ -262,6 +262,11 @@ h1{
   .charts-row{flex-direction:column;}
 }
 
+.rec-item{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:9px 0;border-top:1px solid var(--border-soft);}
+.rec-item:first-child{border-top:none;padding-top:2px;}
+.rec-titulo{font-size:13.5px;line-height:1.35;}
+.rec-meta{font-size:12px;color:var(--muted);margin-top:2px;}
+.rec-data{font-size:12.5px;color:var(--muted);white-space:nowrap;font-family:var(--font-mono);}
 .donut-wrap{display:flex;align-items:center;gap:20px;}
 .legend{display:flex;flex-direction:column;gap:10px;margin-top:4px;}
 .legend-item{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--ink-soft);}
@@ -3443,41 +3448,16 @@ footer{
   <div data-view="resumo">
   <div class="eyebrow">Grupo Gadens · Governança de Processos</div>
   <h1>Painel de Organização de Documentos</h1>
-  <p class="sub">Situação consolidada dos documentos oficiais (POPs, ITs, Regimentos, Fluxogramas e Políticas) nos três repositórios em que precisam existir sincronizados.</p>
-  <div class="meta-line">
-    <span class="meta-item"><span class="dot"></span><b>Ambiente 1</b>&nbsp;Central de Documentos</span>
-    <span class="meta-item"><span class="dot" style="background:var(--ink-soft)"></span><b>Ambiente 2</b>&nbsp;Repositório por Setor</span>
-    <span class="meta-item"><span class="dot" style="background:var(--muted)"></span><b>Ambiente 3</b>&nbsp;Projeto Next</span>
+  <p class="sub">Documentos oficiais do Grupo Gadens: POPs, ITs, Regimentos, Fluxogramas e Políticas.</p>
   </div>
   </div>
 
   <div class="grid-main">
-    <div class="kpis" data-view="resumo">
-      <div class="kpi">
-        <p class="kpi-label">Total de documentos</p>
-        <div class="kpi-value" id="kpi-total">—</div>
-        <p class="kpi-foot">Mapeados nos 3 ambientes</p>
-      </div>
-      <div class="kpi">
-        <p class="kpi-label">Sincronizado (3 ambientes)</p>
-        <div class="kpi-value" id="kpi-pct">—<small>%</small></div>
-        <p class="kpi-foot" id="kpi-pct-foot">—</p>
-      </div>
-      <div class="kpi kpi-warn">
-        <p class="kpi-label">Pendências</p>
-        <div class="kpi-value" id="kpi-pend">—</div>
-        <p class="kpi-foot"><a onclick="filterStatusPending()">ver na tabela ↓</a></p>
-      </div>
-    </div>
-
     <div class="charts-row" data-view="resumo">
       <div class="panel">
-        <p class="panel-title">Status de Sincronização</p>
-        <p class="panel-sub">Presença simultânea nos 3 ambientes, por documento</p>
-        <div class="donut-wrap">
-          <svg id="donut" width="150" height="150" viewBox="0 0 150 150"></svg>
-          <div class="legend" id="donut-legend"></div>
-        </div>
+        <p class="panel-title">Atualizados recentemente</p>
+        <p class="panel-sub">Os 5 documentos com arquivo mais novo. Clique no título para abrir o PDF.</p>
+        <div id="recentes"></div>
       </div>
       <div class="panel">
         <p class="panel-title">Documentos por Tipo</p>
@@ -4443,7 +4423,7 @@ footer{
   </div>
 
   <!-- VERSÃO: a cada publicação no GitHub, mudar aqui, em CACHE no sw.js e na tabela de versões do CLAUDE.md -->
-  <footer>Gerado a partir do Painel de Organização de Documentos · Grupo Gadens · <span id="app-versao">Versão 2.1.2 · 05/11/2026</span>
+  <footer>Gerado a partir do Painel de Organização de Documentos · Grupo Gadens · <span id="app-versao">Versão 2.2.0 · 09/11/2026</span>
     <div class="ios-hint" id="ios-hint" hidden>Para instalar no iPhone: toque em Compartilhar e depois em "Adicionar à Tela de Início".</div>
   </footer>
 </div>
@@ -4493,52 +4473,20 @@ function el(tag, attrs, children){
   return e;
 }
 
-function renderKPIs(){
-  const total = DATA.total;
-  const completo = DATA.status_count["Completo"] || 0;
-  const parcial = DATA.status_count["Parcial"] || 0;
-  const ausente = DATA.status_count["Ausente"] || 0;
-  const pend = parcial + ausente;
-  const pct = total ? Math.round((completo/total)*100) : 0;
-
-  document.getElementById("kpi-total").textContent = total;
-  document.getElementById("kpi-pct").innerHTML = pct + "<small>%</small>";
-  document.getElementById("kpi-pct-foot").textContent = completo + " de " + total + " documentos completos";
-  document.getElementById("kpi-pend").textContent = pend;
-}
-
-function renderDonut(){
-  const svg = document.getElementById("donut");
-  const legend = document.getElementById("donut-legend");
-  const segs = [
-    {key:"Completo", color:"var(--ok)", n: DATA.status_count["Completo"]||0},
-    {key:"Parcial", color:"var(--warn)", n: DATA.status_count["Parcial"]||0},
-    {key:"Ausente", color:"var(--crit)", n: DATA.status_count["Ausente"]||0},
-  ].filter(s=>s.n>0);
-
-  const total = DATA.total;
-  const cx=75, cy=75, r=58, sw=20;
-  const circ = 2*Math.PI*r;
-  let offset = 0;
-  let svgHTML = "";
-  segs.forEach(s=>{
-    const frac = s.n/total;
-    const len = frac*circ;
-    svgHTML += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${s.color}" stroke-width="${sw}" stroke-dasharray="${len} ${circ-len}" stroke-dashoffset="${-offset}" transform="rotate(-90 ${cx} ${cy})" stroke-linecap="butt"/>`;
-    offset += len;
-  });
-  const pct = Math.round(((DATA.status_count["Completo"]||0)/total)*100);
-  svgHTML += `<text x="${cx}" y="${cy-2}" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="26" font-weight="500" fill="var(--ink)">${pct}%</text>`;
-  svgHTML += `<text x="${cx}" y="${cy+16}" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="10" fill="var(--muted)">sincronizado</text>`;
-  svg.innerHTML = svgHTML;
-
-  legend.innerHTML = "";
-  segs.forEach(s=>{
-    legend.appendChild(el("div", {class:"legend-item"}, [
-      el("span", {class:"legend-swatch", style:`background:${s.color}`}),
-      el("span", {}, [document.createTextNode(s.key)]),
-      el("b", {}, [document.createTextNode(s.n)])
-    ]));
+function renderRecentes(){
+  const wrap = document.getElementById("recentes");
+  if(!wrap) return;
+  const num = d => { const m = /^(\d\d)\/(\d\d)\/(\d{4})$/.exec(d||""); return m ? +(m[3]+m[2]+m[1]) : 0; };
+  const lista = DATA.rows.slice().sort((a,b)=> num(b.data)-num(a.data) || a.codigo.localeCompare(b.codigo)).slice(0,5);
+  wrap.innerHTML = "";
+  lista.forEach(r=>{
+    const titulo = r.url
+      ? `<a class="doc-link" href="${r.url}" target="_blank" rel="noopener" title="Abrir ${escapeHtml(r.titulo)}">${escapeHtml(r.titulo)}<span class="doc-link-icon">↗</span></a>`
+      : `<span>${escapeHtml(r.titulo)}</span>`;
+    const item = document.createElement("div");
+    item.className = "rec-item";
+    item.innerHTML = `<div class="rec-main"><div class="rec-titulo">${titulo}</div><div class="rec-meta"><span class="td-codigo">${escapeHtml(r.codigo)}</span> · ${escapeHtml(r.setor)}</div></div><div class="rec-data">${escapeHtml(r.data)}</div>`;
+    wrap.appendChild(item);
   });
 }
 
@@ -5149,8 +5097,7 @@ function initPwa(){
   if(hint && isIOS && !isStandalone) hint.hidden = false;
 }
 
-renderKPIs();
-renderDonut();
+renderRecentes();
 renderTipoBars();
 renderSetorChart();
 populateFilters();
