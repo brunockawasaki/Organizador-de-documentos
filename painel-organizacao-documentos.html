@@ -756,6 +756,19 @@ footer{
 @media (display-mode: standalone){
   .wrap{padding-top:calc(40px + env(safe-area-inset-top));}
 }
+.inst-over{position:fixed;inset:0;z-index:900;background:rgba(20,20,20,.5);display:flex;align-items:center;justify-content:center;padding:16px;}
+.inst-over[hidden]{display:none;}
+.inst-box{background:var(--surface);color:var(--ink);border:1px solid var(--border-soft);border-radius:14px;max-width:460px;width:100%;max-height:88vh;overflow:auto;padding:20px 22px 18px;box-shadow:0 12px 40px rgba(0,0,0,.25);}
+.inst-box h2{font-family:var(--font-display);font-size:18px;margin:0 0 4px;}
+.inst-box .inst-sub{font-size:13px;color:var(--ink-soft);margin:0 0 14px;line-height:1.5;}
+.inst-box ol{margin:0 0 14px;padding-left:22px;font-size:14px;line-height:1.6;}
+.inst-box ol li{margin-bottom:6px;}
+.inst-box .inst-nota{font-size:12.5px;color:var(--muted);background:var(--surface-soft);border-radius:8px;padding:9px 11px;margin:0 0 14px;line-height:1.5;}
+.inst-box .inst-outros{font-size:12.5px;color:var(--ink-soft);margin:0 0 14px;line-height:1.5;}
+.inst-box .inst-outros b{color:var(--ink);}
+.inst-fechar{display:block;margin-left:auto;font:inherit;font-size:13px;font-weight:600;padding:8px 18px;border-radius:8px;border:1px solid var(--border-soft);background:var(--surface-soft);color:var(--ink);cursor:pointer;}
+.inst-fechar:hover{border-color:var(--accent);color:var(--accent);}
+.sb-install[hidden]{display:none;}
 
 @media (max-width:760px){
   .wrap{padding:28px 14px calc(96px + env(safe-area-inset-bottom));}
@@ -3426,6 +3439,10 @@ footer{
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 015 .5c0 1.7-2.5 2-2.5 3.5"/><circle cx="12" cy="17" r=".6"/></svg>
       <span>Modelos e ajuda</span>
     </a>
+    <button type="button" class="sb-link sb-contact-toggle sb-install" id="sb-install" title="Instalar o app">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v10"/><path d="M8 11l4 4 4-4"/><path d="M5 19h14"/></svg>
+      <span>Instalar app</span>
+    </button>
   </nav>
   <div class="sb-foot">
     <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Alternar modo claro/escuro" title="Alternar modo claro/escuro">
@@ -3435,6 +3452,16 @@ footer{
   </div>
 </aside>
 <div class="sb-backdrop" id="sb-backdrop"></div>
+<div class="inst-over" id="inst-over" hidden>
+  <div class="inst-box" role="dialog" aria-modal="true" aria-labelledby="inst-titulo">
+    <h2 id="inst-titulo">Instalar o G-Docs</h2>
+    <p class="inst-sub" id="inst-sub"></p>
+    <ol id="inst-passos"></ol>
+    <p class="inst-nota" id="inst-nota" hidden></p>
+    <p class="inst-outros" id="inst-outros"></p>
+    <button type="button" class="inst-fechar" id="inst-fechar">Fechar</button>
+  </div>
+</div>
 
 <div class="main">
 <div class="topbar">
@@ -3515,7 +3542,7 @@ footer{
         </div>
         <button type="button" class="fav-toggle" id="fav-toggle-btn">☆ Só favoritos</button>
         <button type="button" class="fav-user-badge" id="fav-user-badge" title="Clique para definir ou trocar seu usuário">👤 <span id="fav-user-name">Definir usuário</span></button>
-        <button type="button" class="fav-toggle" id="install-btn" hidden>📲 Instalar app</button>
+        <button type="button" class="fav-toggle" id="install-btn">📲 Instalar app</button>
         <select class="select-input mobile-only" id="sort-mobile" aria-label="Ordenar por">
           <option value="setor">Ordenar: Setor</option>
           <option value="codigo">Ordenar: Código</option>
@@ -4422,7 +4449,7 @@ footer{
   </div>
 
   <!-- VERSÃO: a cada publicação no GitHub, mudar aqui, em CACHE no sw.js e na tabela de versões do CLAUDE.md -->
-  <footer>Governança de Documentos - G-Docs · Grupo Gadens · <span id="app-versao">Versão 2.2.3 · 09/11/2026</span>
+  <footer>Governança de Documentos - G-Docs · Grupo Gadens · <span id="app-versao">Versão 2.3.0 · 09/11/2026</span>
     <div class="ios-hint" id="ios-hint" hidden>Para instalar no iPhone: toque em Compartilhar e depois em "Adicionar à Tela de Início".</div>
   </footer>
 </div>
@@ -5073,22 +5100,85 @@ function initPwa(){
   }
 
   const installBtn = document.getElementById("install-btn");
+  const sbInstall = document.getElementById("sb-install");
+  const botoes = [installBtn, sbInstall].filter(Boolean);
   let deferredPrompt = null;
+  const esconderBotoes = ()=>{ botoes.forEach(b=>{ b.hidden = true; }); };
+  if(isStandalone) esconderBotoes();
+
   window.addEventListener("beforeinstallprompt", (e)=>{
     e.preventDefault();
     deferredPrompt = e;
-    if(installBtn && !isStandalone) installBtn.hidden = false;
   });
-  if(installBtn){
-    installBtn.addEventListener("click", async ()=>{
-      if(!deferredPrompt) return;
-      deferredPrompt.prompt();
-      try{ await deferredPrompt.userChoice; }catch(e){}
-      deferredPrompt = null;
-      installBtn.hidden = true;
-    });
+  window.addEventListener("appinstalled", ()=>{ deferredPrompt = null; esconderBotoes(); });
+
+  const ua0 = navigator.userAgent || "";
+  const ehIOS = /iPad|iPhone|iPod/.test(ua0) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const ehAndroid = /Android/i.test(ua0);
+  const ehEdge = /Edg\//.test(ua0);
+  const ehFirefox = /Firefox|FxiOS/.test(ua0);
+  const ehChrome = /Chrome|CriOS/.test(ua0) && !ehEdge && !/OPR\//.test(ua0);
+  const ehSafariDesktop = !ehIOS && /Safari/.test(ua0) && !/Chrome|Chromium|Edg\//.test(ua0);
+
+  const over = document.getElementById("inst-over");
+  const fecharJanela = ()=>{ if(over) over.hidden = true; };
+  const abrirJanela = ()=>{
+    if(!over) return;
+    const sub = document.getElementById("inst-sub");
+    const passos = document.getElementById("inst-passos");
+    const nota = document.getElementById("inst-nota");
+    const outros = document.getElementById("inst-outros");
+    let lista = [], aviso = "", subtxt = "";
+    if(ehIOS){
+      subtxt = "No iPhone e no iPad a instalação é feita pelo próprio aparelho, em poucos toques.";
+      lista = ["Abra esta página no <b>Safari</b>.", "Toque no botão <b>Compartilhar</b> (o quadrado com uma seta para cima).", "Role a lista e toque em <b>Adicionar à Tela de Início</b>.", "Toque em <b>Adicionar</b>. O ícone do G-Docs aparece na tela inicial."];
+      aviso = "Se você abriu o link por outro aplicativo (como o WhatsApp), toque em ⋯ ou no ícone da bússola e escolha abrir no Safari.";
+    } else if(ehAndroid){
+      subtxt = "No Android, a instalação é feita pelo menu do navegador.";
+      lista = ["Abra esta página no <b>Chrome</b>.", "Toque no menu <b>⋮</b> (três pontinhos, no canto de cima).", "Toque em <b>Instalar app</b> ou em <b>Adicionar à tela inicial</b>.", "Confirme. O ícone do G-Docs aparece na tela inicial."];
+      if(ehFirefox) aviso = "O Firefox pode não oferecer a instalação. Se não achar a opção, abra o link no Chrome.";
+    } else if(ehSafariDesktop){
+      subtxt = "O Safari no computador não instala este tipo de app.";
+      lista = ["Abra esta página no <b>Chrome</b> ou no <b>Edge</b>.", "Siga o passo a passo de instalação por lá."];
+    } else if(ehFirefox){
+      subtxt = "O Firefox no computador não instala este tipo de app.";
+      lista = ["Abra esta página no <b>Chrome</b> ou no <b>Edge</b>.", "Siga o passo a passo de instalação por lá."];
+    } else {
+      subtxt = "No computador, a instalação é feita pelo Chrome ou pelo Edge.";
+      lista = ["Olhe a <b>barra de endereço</b>, no canto direito. Procure o ícone de instalar (uma telinha com uma seta para baixo).", "Clique nele e depois em <b>Instalar</b>.", "Se não achar o ícone, abra o menu <b>⋮</b> do navegador e procure <b>Instalar G-Docs</b> (no Chrome fica em Transmitir, salvar e compartilhar)."];
+      aviso = "Se você já instalou, a barra de endereço mostra <b>Abrir no app</b> em vez do ícone de instalar.";
+    }
+    sub.textContent = subtxt;
+    passos.innerHTML = lista.map(t=>"<li>"+t+"</li>").join("");
+    nota.hidden = !aviso; nota.innerHTML = aviso;
+    const outrosTxt = [];
+    if(!ehIOS) outrosTxt.push("<b>iPhone:</b> Safari, Compartilhar, Adicionar à Tela de Início.");
+    if(!ehAndroid) outrosTxt.push("<b>Android:</b> Chrome, menu ⋮, Instalar app.");
+    if(ehIOS || ehAndroid) outrosTxt.push("<b>Computador:</b> Chrome ou Edge, ícone de instalar na barra de endereço.");
+    outros.innerHTML = "Em outro aparelho: " + outrosTxt.join(" ");
+    over.hidden = false;
+    const f = document.getElementById("inst-fechar"); if(f) f.focus();
+  };
+
+  const instalar = async ()=>{
+    if(deferredPrompt){
+      const dp = deferredPrompt;
+      try{
+        dp.prompt();
+        const r = await dp.userChoice;
+        deferredPrompt = null;
+        if(r && r.outcome === "accepted") esconderBotoes();
+      }catch(e){ deferredPrompt = null; abrirJanela(); }
+      return;
+    }
+    abrirJanela();
+  };
+  botoes.forEach(b=>b.addEventListener("click", instalar));
+  if(over){
+    over.addEventListener("click", (e)=>{ if(e.target === over) fecharJanela(); });
+    const f = document.getElementById("inst-fechar"); if(f) f.addEventListener("click", fecharJanela);
+    document.addEventListener("keydown", (e)=>{ if(e.key === "Escape" && !over.hidden) fecharJanela(); });
   }
-  window.addEventListener("appinstalled", ()=>{ if(installBtn) installBtn.hidden = true; });
 
   const ua = navigator.userAgent || "";
   const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
